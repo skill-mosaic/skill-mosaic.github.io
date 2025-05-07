@@ -333,6 +333,38 @@
 </section>
  
 
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-shelves">
+          <video poster="" id="shelves" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mosaic-static-obs.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-binpick">
+          <video poster="" id="binpick" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/perception_mosaic.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-ten">
+          <video poster="" id="ten" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mosaic-movable-objects.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-eight">
+          <video poster="" id="eight" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mosaic-no-obj.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
  
 
  
@@ -393,8 +425,75 @@
 </section>
  
 
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <!-- Experimentation Section -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Experimentation</h2>
+        <div class="content has-text-justified">
+          <p>
+            Simulation setups and their real-world counterparts. Across all scenarios, the robot must place the plate into the bin.
+            In <strong>Transport</strong> (a), the robot must push the plate to the edge in order to pick it up.
+            In <strong>Transport in Clutter</strong> (b), the robot must move the plate to the edge without displacing other objects.
+            In <strong>Transport Among Movable Objects</strong> (c), the robot discovered the need to clear space for manipulating the plate by moving the chips can elsewhere.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario Visuals -->
+    <div class="columns is-centered">
+      <div class="column">
+        <h3 class="title is-4">Transport</h3>
+        <div class="content">
+          <img src="./static/images/experiment_no_obs.jpg" style="width:49%;" alt="Transport real">
+          <img src="./static/images/exps_nobjs_croped.png" style="width:49%;" alt="Transport sim">
+        </div>
+      </div>
+      <div class="column">
+        <h3 class="title is-4">Transport in Clutter</h3>
+        <div class="content">
+          <img src="./static/images/experiment_w_obs.jpg" style="width:49%;" alt="Clutter real">
+          <img src="./static/images/exps_objs_croped.png" style="width:49%;" alt="Clutter sim">
+        </div>
+      </div>
+      <div class="column">
+        <h3 class="title is-4">Transport Among Movable Objects</h3>
+        <div class="content">
+          <img src="./static/images/experiment_movable.jpg" style="width:49%;" alt="Movable real">
+          <img src="./static/images/exps_movable_objs.png" style="width:49%;" alt="Movable sim">
+        </div>
+      </div>
+    </div>
+
+    <!-- Planner Comparison -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h3 class="title is-3">Planner Comparison</h3>
+        <div class="content has-text-justified">
+          <p>
+            Algorithms comparison across experimental scenarios.
+            <strong>Left:</strong> Success rates.
+            <strong>Middle:</strong> Planning time density with median, IQR, and average.
+            <strong>Right:</strong> Head-to-head comparison on tests both algorithms solved.
+            Upper-right shows relative planning times; lower-left shows relative sequence lengths.
+            Each cell compares the “row algorithm” to the “column algorithm.” For <em>mosaic</em>, lower values are better in the first row, and higher values are better in the first column.
+          </p>
+          <img src="./static/images/planner_comparison_no_obs.png" class="planner-comparison" alt="Planner comparison no obs"/>
+          <img src="./static/images/planner_comparison_w_obs.png" class="planner-comparison" alt="Planner comparison with obs"/>
+          <img src="./static/images/planner_comparison_movable_obj.png" class="planner-comparison" alt="Planner comparison movable objects"/>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
  
-<section class="section" id="BibTeX">
+<!-- <section class="section" id="BibTeX">
  
   <div class="container is-max-desktop content">
  
@@ -406,7 +505,7 @@
  
   </div>
  
-</section>
+</section> -->
  
 
  
