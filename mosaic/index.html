@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MOSAIC: Skill-Centric Manipulation Planning with Physics Simulation</title>
+  <meta name="description" content="MOSAIC (ICRA 2026): skill-centric, multi-directional manipulation planning that uses physics simulation to find where skills succeed.">
+  <meta property="og:title" content="MOSAIC: Skill-Centric Manipulation Planning with Physics Simulation">
+  <meta property="og:image" content="https://skill-mosaic.github.io/assets/media/mosaic/mosaic_main.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../assets/favicon.gif">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script defer src="../assets/js/site.js"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="../"><span class="brand-mark"><i class="c"></i><i class="s"></i></span>MOSAIC</a>
+    <div class="nav-links">
+      <a href="#abstract">Abstract</a>
+      <a href="#experiments" class="hide-sm">Experiments</a>
+      <a href="#bibtex">BibTeX</a>
+      <a href="../#papers">All papers</a>
+    </div>
+  </div>
+</nav>
+
+<header class="paper-hero">
+  <div class="wrap">
+    <span class="tag venue">ICRA 2026 · SoCS 2026 extended abstract</span>
+    <h1>MOSAIC</h1>
+    <p class="subtitle">Skill-Centric Manipulation Planning with Physics Simulation</p>
+    <div class="authors">
+      <a href="https://imishani.github.io/">Itamar Mishani</a>,
+      <a href="https://yoraish.com/">Yorai Shaoul</a>,
+      <a href="https://www.cs.cmu.edu/~maxim/">Maxim Likhachev</a>
+    </div>
+    <div class="affil">Robotics Institute, Carnegie Mellon University</div>
+    <div class="btn-row">
+      <a class="btn primary" href="https://arxiv.org/pdf/2504.16738">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg>Paper</a>
+      <a class="btn" href="https://arxiv.org/abs/2504.16738">arXiv</a>
+      <a class="btn" href="#bibtex">BibTeX</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <figure>
+    <div class="figure-card">
+      <img src="../assets/media/mosaic/mosaic_main.jpg" width="2400" height="840"
+           alt="Generators (blue circles) and connectors (coral squares) forming a plan from start to goal on a real UR arm.">
+    </div>
+    <figcaption>MOSAIC builds a plan from skill “islands”. Generators (blue) find pushes and picks that succeed on their own; connectors (coral) link them into a path from start to goal.</figcaption>
+  </figure>
+</div>
+
+<section class="section" id="abstract">
+  <div class="wrap narrow prose">
+    <h2>Abstract</h2>
+    <p>
+      Planning long-horizon manipulation motions using a set of predefined skills is a central challenge in robotics;
+      solving it efficiently could enable general-purpose robots to tackle novel tasks by flexibly composing generic skills.
+      Solutions to this problem lie in an infinitely vast space of parameterized skill sequences, a space where common
+      incremental methods struggle to find sequences that have non-obvious intermediate steps. Some approaches reason over
+      lower-dimensional, symbolic spaces, which are more tractable to explore but may be brittle and are laborious to construct.
+    </p>
+    <p>
+      In this work, we introduce MOSAIC, a skill-centric, multi-directional planning approach that targets these challenges
+      by reasoning about which skills to employ and where they are most likely to succeed, by utilizing physics simulation to
+      estimate skill execution outcomes. Specifically, MOSAIC employs two complementary skill families: <strong>Generators</strong>,
+      which identify “islands of competence” where skills are demonstrably effective, and <strong>Connectors</strong>, which link
+      these skill-trajectories by solving boundary value problems. By focusing planning efforts on regions of high competence,
+      MOSAIC efficiently discovers physically-grounded solutions. We demonstrate its efficacy on complex long-horizon problems in
+      both simulation and the real world, using a diverse set of skills including generative diffusion models, motion planning
+      algorithms, and manipulation-specific models.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="videos">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">In action</div>
+      <h2>Simulation and real robot</h2>
+    </div>
+    <div class="grid-2">
+      <figure class="clip">
+        <div class="media"><video data-loop autoplay muted loop playsinline preload="metadata" poster="../assets/media/mosaic/mosaic-static-obs.jpg"><source src="../assets/media/mosaic/mosaic-static-obs.mp4" type="video/mp4"></video></div>
+        <h3>Transport in clutter</h3>
+        <p>The plate must reach the bin without disturbing the objects around it.</p>
+      </figure>
+      <figure class="clip">
+        <div class="media"><video data-loop autoplay muted loop playsinline preload="metadata" poster="../assets/media/mosaic/perception_mosaic.jpg"><source src="../assets/media/mosaic/perception_mosaic.mp4" type="video/mp4"></video></div>
+        <h3>From perception to plan</h3>
+        <p>The scene is perceived, planned in simulation, and executed on the real arm.</p>
+      </figure>
+      <figure class="clip">
+        <div class="media"><video data-loop autoplay muted loop playsinline preload="metadata" poster="../assets/media/mosaic/mosaic-movable-objects.jpg"><source src="../assets/media/mosaic/mosaic-movable-objects.mp4" type="video/mp4"></video></div>
+        <h3>Transport among movable objects</h3>
+        <p>MOSAIC discovers it must first move the chips can to make room for the plate.</p>
+      </figure>
+      <figure class="clip">
+        <div class="media"><video data-loop autoplay muted loop playsinline preload="metadata" poster="../assets/media/mosaic/mosaic-no-obj.jpg"><source src="../assets/media/mosaic/mosaic-no-obj.mp4" type="video/mp4"></video></div>
+        <h3>Transport</h3>
+        <p>The plate is pushed to the table's edge so it can be picked up.</p>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="experiments">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Experiments</div>
+      <h2>Three scenarios, real and simulated</h2>
+      <p>In every scenario the robot must place the plate into the bin. Each pair shows the real setup and its simulated counterpart.</p>
+    </div>
+    <div class="grid-3">
+      <figure class="clip">
+        <div class="pair">
+          <img src="../assets/media/mosaic/mosaic_real_transport.jpg" loading="lazy" alt="Transport, real setup">
+          <img src="../assets/media/mosaic/mosaic_sim_transport.jpg" loading="lazy" alt="Transport, simulated setup">
+        </div>
+        <h3>(a) Transport</h3>
+        <p>The plate must be pushed to the edge before it can be picked up.</p>
+      </figure>
+      <figure class="clip">
+        <div class="pair">
+          <img src="../assets/media/mosaic/mosaic_real_clutter.jpg" loading="lazy" alt="Transport in clutter, real setup">
+          <img src="../assets/media/mosaic/mosaic_sim_clutter.jpg" loading="lazy" alt="Transport in clutter, simulated setup">
+        </div>
+        <h3>(b) Transport in clutter</h3>
+        <p>The plate must reach the edge without displacing other objects.</p>
+      </figure>
+      <figure class="clip">
+        <div class="pair">
+          <img src="../assets/media/mosaic/mosaic_real_movable.jpg" loading="lazy" alt="Transport among movable objects, real setup">
+          <img src="../assets/media/mosaic/mosaic_sim_movable.jpg" loading="lazy" alt="Transport among movable objects, simulated setup">
+        </div>
+        <h3>(c) Transport among movable objects</h3>
+        <p>Space must first be cleared by moving the chips can.</p>
+      </figure>
+    </div>
+
+    <div class="section-head" style="margin-top:72px">
+      <h2 style="font-size:30px">Planner comparison</h2>
+      <p>
+        <strong>Left:</strong> success rates. <strong>Middle:</strong> planning-time density with median, IQR and mean.
+        <strong>Right:</strong> head-to-head on problems both planners solved: the upper triangle shows relative planning time,
+        the lower triangle relative sequence length, each comparing the row planner to the column planner.
+      </p>
+    </div>
+    <div class="stack">
+      <figure><div class="figure-card"><img src="../assets/media/mosaic/mosaic_results_no_obs.jpg" loading="lazy" alt="Planner comparison: transport"></div><figcaption>Transport</figcaption></figure>
+      <figure><div class="figure-card"><img src="../assets/media/mosaic/mosaic_results_w_obs.jpg" loading="lazy" alt="Planner comparison: transport in clutter"></div><figcaption>Transport in clutter</figcaption></figure>
+      <figure><div class="figure-card"><img src="../assets/media/mosaic/mosaic_results_movable_obj.jpg" loading="lazy" alt="Planner comparison: transport among movable objects"></div><figcaption>Transport among movable objects</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="bibtex">
+  <div class="wrap narrow">
+    <div class="section-head"><h2>BibTeX</h2></div>
+    <div class="bibtex">
+      <button class="copy" type="button">Copy</button>
+<pre>@inproceedings{mishani2026mosaic,
+  title     = {{MOSAIC}: Skill-Centric Manipulation Planning with Physics Simulation},
+  author    = {Mishani, Itamar and Shaoul, Yorai and Likhachev, Maxim},
+  booktitle = {IEEE International Conference on Robotics and Automation (ICRA)},
+  year      = {2026}
+}</pre>
+    </div>
+    <a class="next" href="../lazy-mosaic/" style="margin-top:48px">
+      <span><small>Next in the MOSAIC line</small><b>Lazy-MOSAIC →</b></span>
+      <span class="tag review">Under review</span>
+    </a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div><a href="../">← All MOSAIC papers</a></div>
+    <div>Search-Based Planning Lab · Robotics Institute, Carnegie Mellon University</div>
+  </div>
+</footer>
+
+</body>
+</html>

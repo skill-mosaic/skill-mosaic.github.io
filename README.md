@@ -1,5 +1,10 @@
-#  Mosaic: A Skill-Centric Algorithmic Framework for Long-Horizon Manipulation Planning
+# skill-mosaic.github.io
 
+Project site for the MOSAIC line of skill-centric manipulation planners.
 
-# Website License
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+- `index.html`: hub (paradigm + all papers)
+- `mosaic/`, `lazy-mosaic/`: one page per paper
+- `assets/css/site.css`, `assets/js/site.js`: shared style and behavior
+- `assets/media/<paper>/`: web-encoded videos (H.264, < 10 MB) and images
+
+To add a paper: copy a paper folder, update its page, add a card under `#papers` in `index.html`.

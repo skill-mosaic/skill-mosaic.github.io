@@ -1,550 +1,214 @@
-<!DOCTYPE html>
- 
-<html>
- 
+<!doctype html>
+<html lang="en">
 <head>
- 
   <meta charset="utf-8">
- 
-  <meta name="description"
- 
-        content="Mosaic: A Skill-Centric Algorithmic Framework for Long-Horizon Manipulation Planning">
- 
-  <meta name="keywords" content="Manipulation, Robotics, Diffusion Models">
- 
   <meta name="viewport" content="width=device-width, initial-scale=1">
- 
-  <title>Mosaic: A Skill-Centric Algorithmic Framework for Long-Horizon Manipulation Planning</title>
- 
-
- 
-  <!-- Google tag (gtag.js) -->
- 
-  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-"></script>
- 
-  <script>
- 
-    window.dataLayer = window.dataLayer || [];
- 
-    function gtag(){dataLayer.push(arguments);}
- 
-    gtag('js', new Date());
- 
-
- 
-    gtag('config', 'G-');
- 
-  </script> -->
- 
-
- 
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
- 
-        rel="stylesheet">
- 
-
- 
-  <link rel="stylesheet" href="./static/css/bulma.min.css">
- 
-  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
- 
-  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
- 
-  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
- 
-  <link rel="stylesheet"
- 
-        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
- 
-  <link rel="stylesheet" href="./static/css/index.css">
- 
-  <link rel="icon" href="./static/images/favicon.gif">
- 
-
- 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- 
-  <script defer src="./static/js/fontawesome.all.min.js"></script>
- 
-  <script src="./static/js/bulma-carousel.min.js"></script>
- 
-  <script src="./static/js/bulma-slider.min.js"></script>
- 
-  <script src="./static/js/index.js"></script>
- 
+  <title>MOSAIC: Skill-Centric Manipulation Planning</title>
+  <meta name="description" content="MOSAIC is a family of skill-centric planners for long-horizon robot manipulation: skills find where they work, connectors link them, and a world model grounds every plan.">
+  <meta property="og:title" content="MOSAIC: Skill-Centric Manipulation Planning">
+  <meta property="og:description" content="A family of skill-centric planners for long-horizon robot manipulation.">
+  <meta property="og:image" content="https://skill-mosaic.github.io/assets/media/mosaic/mosaic_main.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.gif">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script defer src="assets/js/site.js"></script>
 </head>
- 
 <body>
- 
-<!-- 
- 
-<nav class="navbar" role="navigation" aria-label="main navigation">
- 
-  <div class="navbar-brand">
- 
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
- 
-      <span aria-hidden="true"></span>
- 
-      <span aria-hidden="true"></span>
- 
-      <span aria-hidden="true"></span>
- 
-    </a>
- 
-  </div>
- 
-  <div class="navbar-menu">
- 
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
- 
-      <a class="navbar-item" href="https://keunhong.com">
- 
-      <span class="icon">
- 
-          <i class="fas fa-home"></i>
- 
-      </span>
- 
-      </a>
- 
 
- 
-      <div class="navbar-item has-dropdown is-hoverable">
- 
-        <a class="navbar-link">
- 
-          More Research
- 
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="./"><span class="brand-mark"><i class="c"></i><i class="s"></i></span>MOSAIC</a>
+    <div class="nav-links">
+      <a href="#paradigm">Paradigm</a>
+      <a href="#papers">Papers</a>
+      <a href="#team" class="hide-sm">Team</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Skill-centric manipulation planning</div>
+    <h1>Plan where skills <em>succeed</em>.</h1>
+    <p class="lede">
+      MOSAIC is a family of planners for long-horizon robot manipulation. Rather than growing a plan one step
+      at a time from the start, it lets each skill find the places where it reliably works, connects those pieces
+      into a full plan, and checks every step against a world model.
+    </p>
+    <div class="btn-row">
+      <a class="btn primary" href="#papers">See the papers</a>
+      <a class="btn" href="lazy-mosaic/#video">Watch Lazy-MOSAIC</a>
+    </div>
+
+    <figure class="hero-figure">
+      <div class="figure-card">
+        <img src="assets/media/mosaic/mosaic_main.jpg" width="2400" height="840"
+             alt="A MOSAIC plan on a real robot: generator skills (blue circles) such as push and pick are found independently, and connector skills (coral squares) link them from start to goal.">
+      </div>
+      <figcaption>A MOSAIC plan on a real robot. Generators (blue) find pushes and picks that work on their own; connectors (coral) stitch them into one plan from start to goal. Dead ends (…) are explored but not used.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<section class="section" id="paradigm">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">The paradigm</div>
+      <h2>Skills steer the search.</h2>
+      <p>
+        A long-horizon task, like getting a plate into a bin when it first has to be slid to the table's edge,
+        needs non-obvious intermediate steps. MOSAIC treats skills as active participants in planning, not just actions to try in order.
+      </p>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="glyph gen" aria-hidden="true"></div>
+        <h3>Generators</h3>
+        <p>Skills such as push, pull and pick propose motions wherever they are likely to work, building up
+          “islands of competence” across the task, without needing to be reached from the start first.</p>
+      </div>
+      <div class="pillar">
+        <div class="glyph con" aria-hidden="true"></div>
+        <h3>Connectors</h3>
+        <p>Skills that bridge two specific world states, solving the boundary problem between islands so
+          that independent pieces join into one executable plan from start to goal.</p>
+      </div>
+      <div class="pillar">
+        <div class="glyph wm" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+        </div>
+        <h3>World model</h3>
+        <p>Every skill's outcome is predicted by a world model, whether a physics simulator, a learned model, or both,
+          so plans are grounded in physics without hand-written preconditions or effects.</p>
+      </div>
+    </div>
+
+    <div class="contrast">
+      <div>
+        <h4>Sequential planners</h4>
+        <p>Grow a plan forward from the start (or back from the goal), so steps that only make sense later, like clearing space first, are hard to find.</p>
+      </div>
+      <div>
+        <h4>MOSAIC</h4>
+        <p>Searches non-sequentially: useful behaviors are found before they connect to a full plan, and effort goes where skills actually succeed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="papers">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Papers</div>
+      <h2>One paradigm, growing.</h2>
+      <p>Each paper builds on the same skill-centric search and takes it a step further.</p>
+    </div>
+
+    <div class="papers">
+      <article class="paper">
+        <a class="media" href="mosaic/" aria-label="MOSAIC project page">
+          <video data-loop autoplay muted loop playsinline preload="metadata" poster="assets/media/mosaic/mosaic-static-obs.jpg">
+            <source src="assets/media/mosaic/mosaic-static-obs.mp4" type="video/mp4">
+          </video>
         </a>
- 
-        <div class="navbar-dropdown">
- 
-          <a class="navbar-item" href="https://hypernerf.github.io">
- 
-            HyperNeRF
- 
-          </a>
- 
-          <a class="navbar-item" href="https://nerfies.github.io">
- 
-            Nerfies
- 
-          </a>
- 
-          <a class="navbar-item" href="https://latentfusion.github.io">
- 
-            LatentFusion
- 
-          </a>
- 
-          <a class="navbar-item" href="https://photoshape.github.io">
- 
-            PhotoShape
- 
-          </a>
- 
-        </div>
- 
-      </div>
- 
-    </div>
- 
-
- 
-  </div>
- 
-</nav> -->
- 
-
- 
-
- 
-<section class="hero">
- 
-  <div class="hero-body">
- 
-    <div class="container is-max-desktop">
- 
-      <div class="columns is-centered">
- 
-        <div class="column has-text-centered">
- 
-          <h1 class="title is-1 publication-title">MOSAIC: A Skill-Centric Algorithmic Framework for Long-Horizon Manipulation Planning</h1>
- 
-          <h1 class="title is-4 publication-title">In submission.</h1>
- 
-          <div class="is-size-5 publication-authors">
- 
-            <span class="author-block">
- 
-              <a href="https://imishani.github.io/">Itamar Mishani</a>,
-              <sup>
-              </sup>
-              <a href="https://yoraish.com/">Yorai Shaoul</a>, and
-              <a href="https://www.cs.cmu.edu/~maxim/index.html">Maxim Likhachev</a>.</span>
- 
+        <div class="paper-body">
+          <div class="paper-meta"><span class="paper-num">01</span><span class="tag venue">ICRA 2026</span></div>
+          <h3>MOSAIC</h3>
+          <div class="subtitle">Skill-Centric Manipulation Planning with Physics Simulation</div>
+          <p class="pitch">The core framework. Generators and connectors search over where skills succeed, with a physics
+            simulator as the world model. It solves long-horizon tasks in simulation and on a real robot using diffusion-model,
+            motion-planning and grasping skills.</p>
+          <div class="btn-row">
+            <a class="btn primary" href="mosaic/">Project page</a>
+            <a class="btn" href="https://arxiv.org/abs/2504.16738">arXiv</a>
           </div>
- 
-            <p class="is-size-5 publication-authors"> Robotics Institute, School of Computer Science, Carnegie Mellon University </p>
- 
-            <div class="is-size-5 publication-authors">
- 
-            <!-- <span class="author-block"><sup>★</sup>Equal contribution.</span> -->
- 
+        </div>
+      </article>
+
+      <article class="paper">
+        <a class="media" href="lazy-mosaic/" aria-label="Lazy-MOSAIC project page">
+          <video data-loop autoplay muted loop playsinline preload="metadata" poster="assets/media/lazy/sim_cover.jpg">
+            <source src="assets/media/lazy/sim_cover.mp4" type="video/mp4">
+          </video>
+        </a>
+        <div class="paper-body">
+          <div class="paper-meta"><span class="paper-num">02</span><span class="tag review">Under review</span></div>
+          <h3>Lazy-MOSAIC</h3>
+          <div class="subtitle">Accelerating Skill-Centric Manipulation Planning with Learned Skill-Effect World Models</div>
+          <p class="pitch">Adds a cheap learned world model in front of the simulator. The search runs on predicted skill
+            outcomes and simulates only what the plan actually needs.</p>
+          <div class="stats">
+            <div class="stat"><b>2.1–6.6×</b><span>faster planning</span></div>
+            <div class="stat"><b>64–69%</b><span>fewer simulator queries</span></div>
           </div>
- 
-
- 
-          <div class="column has-text-centered">
- 
-            <div class="publication-links">
- 
-              <!-- PDF Link. -->
- 
-              <span class="link-block">
- 
-                <a href="https://arxiv.org/abs/2504.16738"
- 
-                   class="external-link button is-normal is-rounded is-dark">
- 
-                  <span class="icon">
- 
-                      <i class="fas fa-file-pdf"></i>
- 
-                  </span>
- 
-                  <span>PDF</span>
- 
-                </a>
- 
-              </span>
- 
-              <span class="link-block">
- 
-                <a href="https://arxiv.org/abs"
- 
-                   class="external-link button is-normal is-rounded is-dark">
- 
-                  <span class="icon">
- 
-                      <i class="ai ai-arxiv"></i>
- 
-                  </span>
- 
-                  <span>arXiv</span>
- 
-                </a>
- 
-              </span>
- 
-              <!-- Video Link. -->
- 
-              <!-- <span class="link-block">
- 
-                <a href="https://www.youtube.com/TODO"
- 
-                   class="external-link button is-normal is-rounded is-dark">
- 
-                  <span class="icon">
- 
-                      <i class="fab fa-youtube"></i>
- 
-                  </span>
- 
-                  <span>Video</span>
- 
-                </a>
- 
-              </span> -->
- 
-              <!-- Code Link. -->
- 
-              <!-- <span class="link-block">
- 
-                <a href="https://github.com/"
- 
-                   class="external-link button is-normal is-rounded is-dark">
- 
-                  <span class="icon">
- 
-                      <i class="fab fa-github"></i>
- 
-                  </span>
- 
-                  <span>Code</span>
- 
-                  </a>
- 
-              </span> -->
- 
-              <!-- Dataset Link. -->
- 
-              <!-- <span class="link-block">
- 
-                <a href="https://github.com/google/nerfies/releases/tag/0.1"
- 
-                   class="external-link button is-normal is-rounded is-dark">
- 
-                  <span class="icon">
- 
-                      <i class="far fa-images"></i>
- 
-                  </span>
- 
-                  <span>Data</span>
- 
-                  </a> -->
- 
-            </div>
- 
-
- 
+          <div class="btn-row">
+            <a class="btn primary" href="lazy-mosaic/">Project page</a>
+            <a class="btn" href="https://arxiv.org/abs/2611.21517">arXiv</a>
           </div>
- 
         </div>
- 
-      </div>
- 
+      </article>
     </div>
- 
-  </div>
- 
-</section>
- 
 
- 
-<section class="hero teaser">
- 
-  <div class="container is-max-desktop">
- 
-    <div class="hero-body">
- 
-      <img src="./static/images/mosaic_main.jpg" alt="Teaser">
- 
-      <h2 class="subtitle has-text-centered">
- 
-      </h2>
- 
+    <div class="upcoming-head">
+      <h3>Coming soon</h3>
+      <span>Papers in preparation</span>
     </div>
- 
-  </div>
- 
-</section>
- 
-
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-shelves">
-          <video poster="" id="shelves" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/mosaic-static-obs.mp4"
-                    type="video/mp4">
-          </video>
+    <div class="teasers">
+      <article class="teaser">
+        <div class="media">
+          <img src="assets/media/upcoming/parallel_teaser.jpg" width="1600" height="752" loading="lazy"
+               alt="Five real-robot runs of a Kinova arm moving a bin, a can and a cracker box on a shelf.">
         </div>
-        <div class="item item-binpick">
-          <video poster="" id="binpick" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/perception_mosaic.mp4"
-                    type="video/mp4">
-          </video>
+        <div class="teaser-body">
+          <span class="tag soon">Coming soon</span>
+          <h4>Parallel MOSAIC</h4>
+          <p>Running MOSAIC's skill-centric search in parallel across CPUs and GPUs.</p>
         </div>
-        <div class="item item-ten">
-          <video poster="" id="ten" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/mosaic-movable-objects.mp4"
-                    type="video/mp4">
-          </video>
+      </article>
+      <article class="teaser">
+        <div class="media" aria-hidden="true">
+          <div class="tiles">
+            <i class="c"></i><i class="o"></i><i class="s"></i><i class="c"></i><i class="o"></i><i class="o"></i><i class="s"></i><i class="c"></i>
+            <i class="o"></i><i class="s"></i><i class="c"></i><i class="o"></i><i class="s"></i><i class="c"></i><i class="o"></i><i class="o"></i>
+            <i class="c"></i><i class="o"></i><i class="o"></i><i class="s"></i><i class="c"></i><i class="o"></i><i class="s"></i><i class="c"></i>
+          </div>
         </div>
-        <div class="item item-eight">
-          <video poster="" id="eight" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/mosaic-no-obj.mp4"
-                    type="video/mp4">
-          </video>
+        <div class="teaser-body">
+          <span class="tag soon">Coming soon</span>
+          <h4>Anytime MOSAIC</h4>
+          <p>Return a first plan quickly, then keep improving it toward optimal for as long as the time budget allows.</p>
         </div>
-      </div>
+      </article>
     </div>
   </div>
 </section>
- 
 
- 
-<section class="section">
- 
-  <div class="container is-max-desktop">
- 
-    <!-- Abstract. -->
- 
-    <div class="columns is-centered has-text-centered">
- 
-      <div class="column is-four-fifths">
- 
-        <h2 class="title is-3">Abstract</h2>
- 
-        <div class="content has-text-justified">
- 
-          <p>
-            Planning long-horizon motions using a set of predefined skills is a key challenge in robotics and AI. Addressing this challenge requires methods that systematically explore skill combinations to uncover task-solving sequences, harness generic, easy-to-learn skills (e.g., pushing, grasping) to generalize across unseen tasks, and bypass reliance on symbolic world representations that demand extensive domain and task-specific knowledge. Despite significant progress, these elements remain largely disjoint in existing approaches, leaving a critical gap in achieving robust, scalable solutions for complex, long-horizon problems.
-            In this work, we present \mosaic{}, a skill-centric framework that unifies these elements by using the skills themselves to guide the planning process. \mosaic{} uses two families of skills: \textit{Generators} compute executable trajectories and world configurations, and \textit{Connectors} link these independently generated skill trajectories by solving boundary value problems, enabling progress toward completing the overall task. By breaking away from the conventional paradigm of incrementally discovering skills from predefined start or goal states---a limitation that significantly restricts exploration---\mosaic{} focuses planning efforts on regions where skills are inherently effective.
-            We demonstrate the efficacy of \mosaic{} in both simulated and real-world robotic manipulation tasks, showcasing its ability to solve complex long-horizon planning problems using a diverse set of skills incorporating generative diffusion models, motion planning algorithms, and manipulation-specific models.
-          </p>
- 
-        </div>
- 
-      </div>
- 
+<section class="section" id="team">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Team</div>
+      <h2>Who's behind MOSAIC</h2>
     </div>
- 
-    <!--/ Abstract. -->
- 
-
- 
-    <!-- Paper video. -->
- 
-    <!-- <div class="columns is-centered has-text-centered">
- 
-      <div class="column is-four-fifths">
- 
-        <h2 class="title is-3">Video</h2>
- 
-        <div class="publication-video">
- 
-          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
- 
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
- 
-        </div>
- 
-      </div>
- 
-    </div> -->
- 
-    <!--/ Paper video. -->
- 
-  </div>
- 
-</section>
- 
-
-
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <!-- Experimentation Section -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Experimentation</h2>
-        <div class="content has-text-justified">
-          <p>
-            Simulation setups and their real-world counterparts. Across all scenarios, the robot must place the plate into the bin.
-            In <strong>Transport</strong> (a), the robot must push the plate to the edge in order to pick it up.
-            In <strong>Transport in Clutter</strong> (b), the robot must move the plate to the edge without displacing other objects.
-            In <strong>Transport Among Movable Objects</strong> (c), the robot discovered the need to clear space for manipulating the plate by moving the chips can elsewhere.
-          </p>
-        </div>
-      </div>
+    <div class="people">
+      <div class="person"><b><a href="https://imishani.github.io/">Itamar Mishani</a></b><span>Carnegie Mellon University</span></div>
+      <div class="person"><b>Mukund Krishnakumar</b><span>Carnegie Mellon University</span></div>
+      <div class="person"><b><a href="https://yoraish.com/">Yorai Shaoul</a></b><span>Carnegie Mellon University</span></div>
+      <div class="person"><b>Oren Salzman</b><span>Technion</span></div>
+      <div class="person"><b><a href="https://www.cs.cmu.edu/~maxim/">Maxim Likhachev</a></b><span>Carnegie Mellon University</span></div>
     </div>
-
-    <!-- Scenario Visuals -->
-    <div class="columns is-centered">
-      <div class="column">
-        <h3 class="title is-4">Transport</h3>
-        <div class="content">
-          <img src="./static/images/experiment_no_obs.jpg" style="width:49%;" alt="Transport real">
-          <img src="./static/images/exps_nobjs_croped.png" style="width:49%;" alt="Transport sim">
-        </div>
-      </div>
-      <div class="column">
-        <h3 class="title is-4">Transport in Clutter</h3>
-        <div class="content">
-          <img src="./static/images/experiment_w_obs.jpg" style="width:49%;" alt="Clutter real">
-          <img src="./static/images/exps_objs_croped.png" style="width:49%;" alt="Clutter sim">
-        </div>
-      </div>
-      <div class="column">
-        <h3 class="title is-4">Transport Among Movable Objects</h3>
-        <div class="content">
-          <img src="./static/images/experiment_movable.jpg" style="width:49%;" alt="Movable real">
-          <img src="./static/images/exps_movable_objs.png" style="width:49%;" alt="Movable sim">
-        </div>
-      </div>
-    </div>
-
-    <!-- Planner Comparison -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h3 class="title is-3">Planner Comparison</h3>
-        <div class="content has-text-justified">
-          <p>
-            Algorithms comparison across experimental scenarios.
-            <strong>Left:</strong> Success rates.
-            <strong>Middle:</strong> Planning time density with median, IQR, and average.
-            <strong>Right:</strong> Head-to-head comparison on tests both algorithms solved.
-            Upper-right shows relative planning times; lower-left shows relative sequence lengths.
-            Each cell compares the “row algorithm” to the “column algorithm.” For <em>mosaic</em>, lower values are better in the first row, and higher values are better in the first column.
-          </p>
-          <img src="./static/images/planner_comparison_no_obs.png" class="planner-comparison" alt="Planner comparison no obs"/>
-          <img src="./static/images/planner_comparison_w_obs.png" class="planner-comparison" alt="Planner comparison with obs"/>
-          <img src="./static/images/planner_comparison_movable_obj.png" class="planner-comparison" alt="Planner comparison movable objects"/>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
- 
-<!-- <section class="section" id="BibTeX">
- 
-  <div class="container is-max-desktop content">
- 
-    <h2 class="title">BibTeX</h2>
- 
-    <pre><code>@inproceedings{TBD,
- 
-      }</code></pre>
- 
-  </div>
- 
-</section> -->
- 
-
- 
-
- 
-
- 
 <footer class="footer">
- 
-  <div class="container">
- 
-    <div class="columns is-centered">
- 
-      <div class="column is-8">
- 
-        <div class="content">
- 
-          <p>
- 
-            This website was adapted from <a href="https://nerfies.github.io">Nerfies</a>, and is licensed under a <a rel="license"
- 
-                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
- 
-            Commons Attribution-ShareAlike 4.0 International License</a>.
- 
-          </p>
- 
-        </div>
- 
-      </div>
- 
-    </div>
- 
+  <div class="wrap">
+    <div>Search-Based Planning Lab · Robotics Institute, Carnegie Mellon University</div>
+    <div>MOSAIC is part of <a href="https://imishani.github.io/">Itamar Mishani</a>'s PhD thesis.</div>
   </div>
- 
 </footer>
- 
 
- 
 </body>
- 
 </html>

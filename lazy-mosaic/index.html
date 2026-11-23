@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lazy-MOSAIC: Accelerating Skill-Centric Manipulation Planning with Learned Skill-Effect World Models</title>
+  <meta name="description" content="Lazy-MOSAIC plans over cheap learned predictions of skill outcomes and simulates only what the plan needs: 2.1–6.6× faster planning with 64–69% fewer simulator queries.">
+  <meta property="og:title" content="Lazy-MOSAIC: Accelerating Skill-Centric Manipulation Planning with Learned Skill-Effect World Models">
+  <meta property="og:image" content="https://skill-mosaic.github.io/assets/media/lazy/paper_video.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../assets/favicon.gif">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script defer src="../assets/js/site.js"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="../"><span class="brand-mark"><i class="c"></i><i class="s"></i></span>MOSAIC</a>
+    <div class="nav-links">
+      <a href="#video">Video</a>
+      <a href="#method" class="hide-sm">Method</a>
+      <a href="#bibtex">BibTeX</a>
+      <a href="../#papers">All papers</a>
+    </div>
+  </div>
+</nav>
+
+<header class="paper-hero">
+  <div class="wrap">
+    <span class="tag review">Under review</span>
+    <h1>Lazy-MOSAIC</h1>
+    <p class="subtitle">Accelerating Skill-Centric Manipulation Planning with Learned Skill-Effect World Models</p>
+    <div class="authors">
+      <a href="https://imishani.github.io/">Itamar Mishani</a>*,
+      Mukund Krishnakumar*,
+      Oren Salzman,
+      <a href="https://www.cs.cmu.edu/~maxim/">Maxim Likhachev</a>
+    </div>
+    <div class="affil">Robotics Institute, Carnegie Mellon University · Technion – Israel Institute of Technology</div>
+    <div class="affil">* Equal contribution</div>
+    <div class="btn-row">
+      <a class="btn primary" href="https://arxiv.org/pdf/2611.21517">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg>Paper</a>
+      <a class="btn" href="https://arxiv.org/abs/2611.21517">arXiv</a>
+      <a class="btn" href="#video">Video</a>
+      <a class="btn" href="#bibtex">BibTeX</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap" id="video">
+  <div class="media lead-video">
+    <video controls playsinline preload="metadata" poster="../assets/media/lazy/paper_video.jpg">
+      <source src="../assets/media/lazy/paper_video.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="statbar">
+      <div><b>2.1–6.6×</b><span>faster planning than MOSAIC on settings both solve</span></div>
+      <div><b>64–69%</b><span>fewer physics-simulator queries</span></div>
+      <div><b>8 / 8</b><span>settings where success matches or exceeds MOSAIC</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="abstract">
+  <div class="wrap narrow prose">
+    <h2>Abstract</h2>
+    <p>
+      Long-horizon manipulation tasks require a robot to perform a sequence of physical interactions with its environment,
+      typically combining several different skills. Planning such behaviors efficiently is challenging: given a library of
+      parameterized skills, solutions lie in a vast hybrid space of skill sequences and their parameters, and evaluating each
+      candidate skill's feasibility and effect with a high-fidelity world model such as a physics simulator is computationally
+      expensive. <a href="../mosaic/">MOSAIC</a>, a recent skill-centric approach, lets the skills guide a non-sequential search
+      toward the regions of this space where they are likely to succeed; however, it pays the full cost of simulation for every
+      parameterized skill it considers.
+    </p>
+    <p>
+      In this work, we introduce Lazy-MOSAIC, a lazy planning framework that instead searches over hypothesized skill outcomes.
+      A cheap learned skill-effect world model predicts, in a fraction of a millisecond, a skill's feasibility and the world state
+      it produces. Lazy-MOSAIC then uses these predictions to focus expensive simulation on promising candidate skills and, when a
+      hypothesis is invalidated, repairs only the affected part of the search, while ensuring that every skill in a returned plan is
+      validated in simulation. We evaluate Lazy-MOSAIC on cluttered-shelf retrieval tasks of increasing difficulty and demonstrate it
+      on a physical robot, showing that it plans substantially faster than baselines with fewer simulator queries, while matching or
+      exceeding their success rate in every setting.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="method">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Method</div>
+      <h2>Two world models: one cheap, one exact</h2>
+      <p>
+        MOSAIC spends 83.4% of its planning time simulating skills, most of which never make it into the final plan.
+        Lazy-MOSAIC keeps MOSAIC's generators and connectors, but plans over cheap predictions first and pays for simulation only where it matters.
+      </p>
+    </div>
+    <figure>
+      <div class="figure-card"><img src="../assets/media/lazy/gen_conn.jpg" loading="lazy" width="2048" height="780"
+        alt="Push (generator), Push (connector) and Pull (generator) skills on a shelf scene with a toolbox, bin and can."></div>
+      <figcaption>Generators and connectors, as in MOSAIC. A push generator moves the toolbox and a pull generator brings the bin forward from a state where the can is to the left; a push connector bridges the gap between them.</figcaption>
+    </figure>
+    <div class="steps">
+      <div class="step">
+        <h3>Predict</h3>
+        <p>A learned skill-effect model predicts, in a fraction of a millisecond, whether a proposed skill will succeed and what world state it will produce.</p>
+      </div>
+      <div class="step">
+        <h3>Search optimistically</h3>
+        <p>Predictions go into an optimistic graph, which the search treats as realizable, so promising skill sequences are found without simulating them.</p>
+      </div>
+      <div class="step">
+        <h3>Certify and repair</h3>
+        <p>Only promising skills are rolled out in the simulator. If a prediction was wrong, only the part of the search that depended on it is repaired, and every skill in a returned plan has been simulated.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tasks">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Experiments</div>
+      <h2>Cluttered-shelf retrieval</h2>
+      <p>Three shelf tasks with a UR10e arm, simulated in ManiSkill3 at easy, medium and hard difficulty. The green region marks the goal.</p>
+    </div>
+    <div class="grid-3">
+      <figure class="clip">
+        <div class="media"><video data-loop autoplay muted loop playsinline preload="metadata" poster="../assets/media/lazy/sim_task1.jpg"><source src="../assets/media/lazy/sim_task1.mp4" type="video/mp4"></video></div>
+        <h3>Task 1: Cluttered retrieval</h3>
+        <p>Retrieve an object from behind clutter.</p>
+      </figure>
+      <figure class="clip">
+        <div class="media"><video data-loop autoplay muted loop playsinline preload="metadata" poster="../assets/media/lazy/sim_task2.jpg"><source src="../assets/media/lazy/sim_task2.mp4" type="video/mp4"></video></div>
+        <h3>Task 2: Bin manipulation</h3>
+        <p>The containing bin has to be manipulated first.</p>
+      </figure>
+      <figure class="clip">
+        <div class="media"><video data-loop autoplay muted loop playsinline preload="metadata" poster="../assets/media/lazy/sim_task3.jpg"><source src="../assets/media/lazy/sim_task3.mp4" type="video/mp4"></video></div>
+        <h3>Task 3: Wrench repositioning</h3>
+        <p>The wrench must be repositioned before it can be grasped.</p>
+      </figure>
+    </div>
+
+    <div class="section-head" style="margin-top:72px">
+      <h2 style="font-size:30px">On real robots</h2>
+    </div>
+    <div class="grid-2">
+      <figure class="clip">
+        <div class="media"><video data-loop autoplay muted loop playsinline preload="metadata" poster="../assets/media/lazy/real_ur.jpg"><source src="../assets/media/lazy/real_ur.mp4" type="video/mp4"></video></div>
+        <h3>UR arm</h3>
+        <p>Retrieving an object from a container among clutter (3× speed).</p>
+      </figure>
+      <figure class="clip">
+        <div class="media"><video data-loop autoplay muted loop playsinline preload="metadata" poster="../assets/media/lazy/real_so107.jpg"><source src="../assets/media/lazy/real_so107.mp4" type="video/mp4"></video></div>
+        <h3>Low-cost arm</h3>
+        <p>Moving a wrench into the goal region on a shelf.</p>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="bibtex">
+  <div class="wrap narrow">
+    <div class="section-head"><h2>BibTeX</h2></div>
+    <div class="bibtex">
+      <button class="copy" type="button">Copy</button>
+<pre>@article{mishani2026lazymosaic,
+  title   = {{Lazy-MOSAIC}: Accelerating Skill-Centric Manipulation Planning
+             with Learned Skill-Effect World Models},
+  author  = {Mishani, Itamar and Krishnakumar, Mukund and
+             Salzman, Oren and Likhachev, Maxim},
+  journal = {arXiv preprint arXiv:2611.21517},
+  year    = {2026}
+}</pre>
+    </div>
+    <a class="next" href="../mosaic/" style="margin-top:48px">
+      <span><small>Builds on</small><b>← MOSAIC</b></span>
+      <span class="tag venue">ICRA 2026</span>
+    </a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div><a href="../">← All MOSAIC papers</a></div>
+    <div>Search-Based Planning Lab · Robotics Institute, Carnegie Mellon University</div>
+  </div>
+</footer>
+
+</body>
+</html>
