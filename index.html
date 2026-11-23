@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MOSAIC: Skill-Centric Manipulation Planning</title>
-  <meta name="description" content="MOSAIC is a family of skill-centric planners for long-horizon robot manipulation: skills find where they work, connectors link them, and a world model grounds every plan.">
+  <title>MOSAIC: Non-Sequential, Skill-Centric Manipulation Planning</title>
+  <meta name="description" content="MOSAIC is a line of work on non-sequential, skill-centric planning for long-horizon robot manipulation.">
   <meta property="og:title" content="MOSAIC: Skill-Centric Manipulation Planning">
   <meta property="og:description" content="A family of skill-centric planners for long-horizon robot manipulation.">
   <meta property="og:image" content="https://skill-mosaic.github.io/assets/media/mosaic/mosaic_main.jpg">
@@ -32,11 +32,12 @@
 <header class="hero">
   <div class="wrap">
     <h1>MOSAIC</h1>
-    <p class="hero-sub">Skill-centric planning for long-horizon manipulation</p>
+    <p class="hero-sub">Non-sequential, skill-centric planning for long-horizon manipulation</p>
     <p class="lede">
-      MOSAIC is a line of work on planning long-horizon manipulation with a library of skills. Skills are used to
-      find where they succeed on their own, those pieces are connected into a full plan, and every step is checked
-      against a world model. This page collects the papers in this line.
+      MOSAIC is a line of work on non-sequential planning for long-horizon manipulation with a library of skills.
+      Instead of extending a plan step by step from the start or the goal, skills are used to find where they succeed
+      on their own, those pieces are connected into a full plan, and every step is checked against a world model.
+      This page collects the papers in this line.
     </p>
 
     <figure class="hero-figure">
@@ -54,8 +55,9 @@
     <div class="section-head">
       <h2>Approach</h2>
       <p>
-        Long-horizon tasks often need intermediate steps that are hard to find by extending a plan one step at a time,
-        such as pushing a plate to the table's edge before it can be grasped. MOSAIC uses the skills themselves to guide the search.
+        Long-horizon tasks often need intermediate steps that sequential planners, which extend a plan one step at a time,
+        struggle to find, such as pushing a plate to the table's edge before it can be grasped. MOSAIC searches
+        non-sequentially: skill trajectories are found wherever they succeed and connected later, so the skills themselves guide the search.
       </p>
     </div>
 
