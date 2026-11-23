@@ -22,33 +22,29 @@
   <div class="wrap">
     <a class="brand" href="./"><span class="brand-mark"><i class="c"></i><i class="s"></i></span>MOSAIC</a>
     <div class="nav-links">
-      <a href="#paradigm">Paradigm</a>
+      <a href="#paradigm">Approach</a>
       <a href="#papers">Papers</a>
-      <a href="#team" class="hide-sm">Team</a>
+      <a href="#team" class="hide-sm">People</a>
     </div>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">Skill-centric manipulation planning</div>
-    <h1>Plan where skills <em>succeed</em>.</h1>
+    <h1>MOSAIC</h1>
+    <p class="hero-sub">Skill-centric planning for long-horizon manipulation</p>
     <p class="lede">
-      MOSAIC is a family of planners for long-horizon robot manipulation. Rather than growing a plan one step
-      at a time from the start, it lets each skill find the places where it reliably works, connects those pieces
-      into a full plan, and checks every step against a world model.
+      MOSAIC is a line of work on planning long-horizon manipulation with a library of skills. Skills are used to
+      find where they succeed on their own, those pieces are connected into a full plan, and every step is checked
+      against a world model. This page collects the papers in this line.
     </p>
-    <div class="btn-row">
-      <a class="btn primary" href="#papers">See the papers</a>
-      <a class="btn" href="lazy-mosaic/#video">Watch Lazy-MOSAIC</a>
-    </div>
 
     <figure class="hero-figure">
       <div class="figure-card">
         <img src="assets/media/mosaic/mosaic_main.jpg" width="2400" height="840"
              alt="A MOSAIC plan on a real robot: generator skills (blue circles) such as push and pick are found independently, and connector skills (coral squares) link them from start to goal.">
       </div>
-      <figcaption>A MOSAIC plan on a real robot. Generators (blue) find pushes and picks that work on their own; connectors (coral) stitch them into one plan from start to goal. Dead ends (…) are explored but not used.</figcaption>
+      <figcaption>Generator skills (blue) and connector skills (coral) composing a plan from start to goal on a real robot.</figcaption>
     </figure>
   </div>
 </header>
@@ -56,11 +52,10 @@
 <section class="section" id="paradigm">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow">The paradigm</div>
-      <h2>Skills steer the search.</h2>
+      <h2>Approach</h2>
       <p>
-        A long-horizon task, like getting a plate into a bin when it first has to be slid to the table's edge,
-        needs non-obvious intermediate steps. MOSAIC treats skills as active participants in planning, not just actions to try in order.
+        Long-horizon tasks often need intermediate steps that are hard to find by extending a plan one step at a time,
+        such as pushing a plate to the table's edge before it can be grasped. MOSAIC uses the skills themselves to guide the search.
       </p>
     </div>
 
@@ -68,44 +63,29 @@
       <div class="pillar">
         <div class="glyph gen" aria-hidden="true"></div>
         <h3>Generators</h3>
-        <p>Skills such as push, pull and pick propose motions wherever they are likely to work, building up
-          “islands of competence” across the task, without needing to be reached from the start first.</p>
+        <p>Skills such as push, pull and pick are invoked wherever they are likely to succeed, producing trajectories (“islands of competence”) that need not be reachable from the start yet.</p>
       </div>
       <div class="pillar">
         <div class="glyph con" aria-hidden="true"></div>
         <h3>Connectors</h3>
-        <p>Skills that bridge two specific world states, solving the boundary problem between islands so
-          that independent pieces join into one executable plan from start to goal.</p>
+        <p>Skills that solve boundary value problems between two world states, linking independently generated trajectories into a plan from start to goal.</p>
       </div>
       <div class="pillar">
         <div class="glyph wm" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
         </div>
         <h3>World model</h3>
-        <p>Every skill's outcome is predicted by a world model, whether a physics simulator, a learned model, or both,
-          so plans are grounded in physics without hand-written preconditions or effects.</p>
+        <p>Skill outcomes are evaluated with a world model (a physics simulator, a learned model, or both) instead of hand-specified preconditions and effects.</p>
       </div>
     </div>
 
-    <div class="contrast">
-      <div>
-        <h4>Sequential planners</h4>
-        <p>Grow a plan forward from the start (or back from the goal), so steps that only make sense later, like clearing space first, are hard to find.</p>
       </div>
-      <div>
-        <h4>MOSAIC</h4>
-        <p>Searches non-sequentially: useful behaviors are found before they connect to a full plan, and effort goes where skills actually succeed.</p>
-      </div>
-    </div>
-  </div>
 </section>
 
 <section class="section" id="papers">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow">Papers</div>
-      <h2>One paradigm, growing.</h2>
-      <p>Each paper builds on the same skill-centric search and takes it a step further.</p>
+      <h2>Papers</h2>
     </div>
 
     <div class="papers">
@@ -119,11 +99,9 @@
           <div class="paper-meta"><span class="paper-num">01</span><span class="tag venue">ICRA 2026</span></div>
           <h3>MOSAIC</h3>
           <div class="subtitle">Skill-Centric Manipulation Planning with Physics Simulation</div>
-          <p class="pitch">The core framework. Generators and connectors search over where skills succeed, with a physics
-            simulator as the world model. It solves long-horizon tasks in simulation and on a real robot using diffusion-model,
-            motion-planning and grasping skills.</p>
+          <p class="pitch">Introduces generators and connectors, with a physics simulator as the world model. Evaluated in simulation and on a real robot with diffusion-model, motion-planning and grasping skills.</p>
           <div class="btn-row">
-            <a class="btn primary" href="mosaic/">Project page</a>
+            <a class="btn" href="mosaic/">Project page</a>
             <a class="btn" href="https://arxiv.org/abs/2504.16738">arXiv</a>
           </div>
         </div>
@@ -139,14 +117,9 @@
           <div class="paper-meta"><span class="paper-num">02</span><span class="tag review">Under review</span></div>
           <h3>Lazy-MOSAIC</h3>
           <div class="subtitle">Accelerating Skill-Centric Manipulation Planning with Learned Skill-Effect World Models</div>
-          <p class="pitch">Adds a cheap learned world model in front of the simulator. The search runs on predicted skill
-            outcomes and simulates only what the plan actually needs.</p>
-          <div class="stats">
-            <div class="stat"><b>2.1–6.6×</b><span>faster planning</span></div>
-            <div class="stat"><b>64–69%</b><span>fewer simulator queries</span></div>
-          </div>
+          <p class="pitch">Searches over skill outcomes predicted by a learned skill-effect model and uses the simulator only to validate promising skills, reducing simulator queries and planning time.</p>
           <div class="btn-row">
-            <a class="btn primary" href="lazy-mosaic/">Project page</a>
+            <a class="btn" href="lazy-mosaic/">Project page</a>
             <a class="btn" href="https://arxiv.org/abs/2611.21517">arXiv</a>
           </div>
         </div>
@@ -154,8 +127,7 @@
     </div>
 
     <div class="upcoming-head">
-      <h3>Coming soon</h3>
-      <span>Papers in preparation</span>
+      <h3>In preparation</h3>
     </div>
     <div class="teasers">
       <article class="teaser">
@@ -164,9 +136,9 @@
                alt="Five real-robot runs of a Kinova arm moving a bin, a can and a cracker box on a shelf.">
         </div>
         <div class="teaser-body">
-          <span class="tag soon">Coming soon</span>
+          <span class="tag soon">In preparation</span>
           <h4>Parallel MOSAIC</h4>
-          <p>Running MOSAIC's skill-centric search in parallel across CPUs and GPUs.</p>
+          <p>Parallelizing MOSAIC's search across CPUs and GPUs.</p>
         </div>
       </article>
       <article class="teaser">
@@ -178,9 +150,9 @@
           </div>
         </div>
         <div class="teaser-body">
-          <span class="tag soon">Coming soon</span>
+          <span class="tag soon">In preparation</span>
           <h4>Anytime MOSAIC</h4>
-          <p>Return a first plan quickly, then keep improving it toward optimal for as long as the time budget allows.</p>
+          <p>An anytime variant that returns a plan early and refines it toward optimality within the planning time budget.</p>
         </div>
       </article>
     </div>
@@ -190,8 +162,7 @@
 <section class="section" id="team">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow">Team</div>
-      <h2>Who's behind MOSAIC</h2>
+      <h2>People</h2>
     </div>
     <div class="people">
       <div class="person"><b><a href="https://imishani.github.io/">Itamar Mishani</a></b><span>Carnegie Mellon University</span></div>
@@ -206,7 +177,7 @@
 <footer class="footer">
   <div class="wrap">
     <div>Search-Based Planning Lab · Robotics Institute, Carnegie Mellon University</div>
-    <div>MOSAIC is part of <a href="https://imishani.github.io/">Itamar Mishani</a>'s PhD thesis.</div>
+    <div>Part of <a href="https://imishani.github.io/">Itamar Mishani</a>'s PhD thesis.</div>
   </div>
 </footer>
 

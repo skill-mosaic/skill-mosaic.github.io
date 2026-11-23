@@ -60,16 +60,6 @@
   </div>
 </div>
 
-<section class="section">
-  <div class="wrap">
-    <div class="statbar">
-      <div><b>2.1–6.6×</b><span>faster planning than MOSAIC on settings both solve</span></div>
-      <div><b>64–69%</b><span>fewer physics-simulator queries</span></div>
-      <div><b>8 / 8</b><span>settings where success matches or exceeds MOSAIC</span></div>
-    </div>
-  </div>
-</section>
-
 <section class="section" id="abstract">
   <div class="wrap narrow prose">
     <h2>Abstract</h2>
@@ -97,11 +87,11 @@
 <section class="section" id="method">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow">Method</div>
-      <h2>Two world models: one cheap, one exact</h2>
+      <h2>Method</h2>
       <p>
-        MOSAIC spends 83.4% of its planning time simulating skills, most of which never make it into the final plan.
-        Lazy-MOSAIC keeps MOSAIC's generators and connectors, but plans over cheap predictions first and pays for simulation only where it matters.
+        In MOSAIC, physics simulation accounts for 83.4% of planning time, and most simulated skills do not end up in the solution.
+        Lazy-MOSAIC keeps MOSAIC's generators and connectors but plans over predictions of a learned skill-effect model,
+        and queries the simulator only for promising skills.
       </p>
     </div>
     <figure>
@@ -112,15 +102,15 @@
     <div class="steps">
       <div class="step">
         <h3>Predict</h3>
-        <p>A learned skill-effect model predicts, in a fraction of a millisecond, whether a proposed skill will succeed and what world state it will produce.</p>
+        <p>A learned skill-effect model predicts whether a proposed skill succeeds and the world state it produces, in a fraction of a millisecond.</p>
       </div>
       <div class="step">
-        <h3>Search optimistically</h3>
-        <p>Predictions go into an optimistic graph, which the search treats as realizable, so promising skill sequences are found without simulating them.</p>
+        <h3>Search</h3>
+        <p>Predicted outcomes are added to an optimistic graph, which the search treats as realizable until shown otherwise.</p>
       </div>
       <div class="step">
         <h3>Certify and repair</h3>
-        <p>Only promising skills are rolled out in the simulator. If a prediction was wrong, only the part of the search that depended on it is repaired, and every skill in a returned plan has been simulated.</p>
+        <p>Promising skills are rolled out in the simulator. When a prediction is wrong, only the dependent part of the graph is repaired. Every skill in a returned plan is validated in simulation.</p>
       </div>
     </div>
   </div>
@@ -129,9 +119,8 @@
 <section class="section" id="tasks">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow">Experiments</div>
-      <h2>Cluttered-shelf retrieval</h2>
-      <p>Three shelf tasks with a UR10e arm, simulated in ManiSkill3 at easy, medium and hard difficulty. The green region marks the goal.</p>
+      <h2>Experiments</h2>
+      <p>Three shelf tasks with a UR10e arm, simulated in ManiSkill3 at easy, medium and hard difficulty (green: goal region). Across eight settings, Lazy-MOSAIC matches or exceeds MOSAIC's success rate, reduces simulator queries by 64–69%, and plans 2.1–6.6× faster on settings solved by both.</p>
     </div>
     <div class="grid-3">
       <figure class="clip">
@@ -152,7 +141,7 @@
     </div>
 
     <div class="section-head" style="margin-top:72px">
-      <h2 style="font-size:30px">On real robots</h2>
+      <h2 style="font-size:28px">Real robot</h2>
     </div>
     <div class="grid-2">
       <figure class="clip">
