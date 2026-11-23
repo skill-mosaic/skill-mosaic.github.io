@@ -6,7 +6,7 @@
   <title>Lazy-MOSAIC: Accelerating Skill-Centric Manipulation Planning with Learned Skill-Effect World Models</title>
   <meta name="description" content="Lazy-MOSAIC plans over cheap learned predictions of skill outcomes and simulates only what the plan needs: 2.1–6.6× faster planning with 64–69% fewer simulator queries.">
   <meta property="og:title" content="Lazy-MOSAIC: Accelerating Skill-Centric Manipulation Planning with Learned Skill-Effect World Models">
-  <meta property="og:image" content="https://skill-mosaic.github.io/assets/media/lazy/paper_video.jpg">
+  <meta property="og:image" content="https://skill-mosaic.github.io/assets/media/lazy/lazy_main.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="../assets/favicon.gif">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +21,7 @@
   <div class="wrap">
     <a class="brand" href="../"><span class="brand-mark"><i class="c"></i><i class="s"></i></span>MOSAIC</a>
     <div class="nav-links">
-      <a href="#video">Video</a>
+      <a href="#abstract">Abstract</a>
       <a href="#method" class="hide-sm">Method</a>
       <a href="#bibtex">BibTeX</a>
       <a href="../#papers">All papers</a>
@@ -46,18 +46,19 @@
       <a class="btn primary" href="https://arxiv.org/pdf/2611.21517">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg>Paper</a>
       <a class="btn" href="https://arxiv.org/abs/2611.21517">arXiv</a>
-      <a class="btn" href="#video">Video</a>
       <a class="btn" href="#bibtex">BibTeX</a>
     </div>
   </div>
 </header>
 
-<div class="wrap" id="video">
-  <div class="media lead-video">
-    <video controls playsinline preload="metadata" poster="../assets/media/lazy/paper_video.jpg">
-      <source src="../assets/media/lazy/paper_video.mp4" type="video/mp4">
-    </video>
-  </div>
+<div class="wrap">
+  <figure>
+    <div class="figure-card">
+      <img src="../assets/media/lazy/lazy_main.jpg" width="2025" height="889"
+           alt="Lazy-MOSAIC's search graph of generators and connectors: optimistic (cyan) and certified (black) skills from start to goal, beside the wrench retrieval scene.">
+    </div>
+    <figcaption>Lazy-MOSAIC searches over hypothesized skill outcomes (faded cyan), certifies promising ones in simulation, and returns a plan of certified skills only (black). Right: wrench retrieval in a semi-structured workshop.</figcaption>
+  </figure>
 </div>
 
 <section class="section" id="abstract">
@@ -94,11 +95,6 @@
         and queries the simulator only for promising skills.
       </p>
     </div>
-    <figure>
-      <div class="figure-card"><img src="../assets/media/lazy/gen_conn.jpg" loading="lazy" width="2048" height="780"
-        alt="Push (generator), Push (connector) and Pull (generator) skills on a shelf scene with a toolbox, bin and can."></div>
-      <figcaption>Generators and connectors, as in MOSAIC. A push generator moves the toolbox and a pull generator brings the bin forward from a state where the can is to the left; a push connector bridges the gap between them.</figcaption>
-    </figure>
     <div class="steps">
       <div class="step">
         <h3>Predict</h3>
@@ -143,18 +139,10 @@
     <div class="section-head" style="margin-top:72px">
       <h2 style="font-size:28px">Real robot</h2>
     </div>
-    <div class="grid-2">
-      <figure class="clip">
-        <div class="media"><video data-loop autoplay muted loop playsinline preload="metadata" poster="../assets/media/lazy/real_ur.jpg"><source src="../assets/media/lazy/real_ur.mp4" type="video/mp4"></video></div>
-        <h3>UR arm</h3>
-        <p>Retrieving an object from a container among clutter (3× speed).</p>
-      </figure>
-      <figure class="clip">
-        <div class="media"><video data-loop autoplay muted loop playsinline preload="metadata" poster="../assets/media/lazy/real_so107.jpg"><source src="../assets/media/lazy/real_so107.mp4" type="video/mp4"></video></div>
-        <h3>Low-cost arm</h3>
-        <p>Moving a wrench into the goal region on a shelf.</p>
-      </figure>
-    </div>
+    <figure class="clip">
+      <div class="media"><video data-loop autoplay muted loop playsinline preload="metadata" poster="../assets/media/lazy/sim_real.jpg"><source src="../assets/media/lazy/sim_real.mp4" type="video/mp4"></video></div>
+      <p>The same task planned and executed in simulation (left) and on a real UR arm (right, 3× speed).</p>
+    </figure>
   </div>
 </section>
 
